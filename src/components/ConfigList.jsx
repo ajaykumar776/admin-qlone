@@ -1,13 +1,13 @@
-// src/ConfigList.js
-
+// components/ConfigDynamicTable.js
 import React, { useEffect, useState } from "react";
-import Table from "./Table.jsx"; // Adjust the path as needed
-import { fetchConfigs, deleteConfig, updateConfig } from "../Actions/api.js"; // Adjust the path as needed
+import DynamicTable from "./DynamicTable"; // Import the dynamic table component
+import { fetchConfigs, deleteConfig, updateConfig } from "../Actions/api"; // Adjust the path as needed
 
-const ConfigList = () => {
+const ConfigDynamicTable = () => {
   const [configs, setConfigs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const getConfigs = async () => {
@@ -40,14 +40,76 @@ const ConfigList = () => {
     }
   };
 
+  const filteredConfigs = configs.filter((config) =>
+    config.config_type.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const columns = [
+    { field: "_id", headerText: "ID", width: "150", textAlign: "Center" },
+    { field: "config_type", headerText: "Type", width: "200" },
+    {
+      field: "config_values",
+      headerText: "Values",
+      width: "250",
+      template: (rowData) => (
+        <div>
+          {rowData.config_values.map((value) => (
+            <div key={value._id}>{value.type}</div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      field: "actions",
+      headerText: "Actions",
+      width: "150",
+      template: (rowData) => (
+        <div>
+          <button
+            onClick={() => handleUpdate(rowData._id, { /* updated values */ })}
+            className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+          >
+            Update
+          </button>
+          <button
+            onClick={() => handleDelete(rowData._id)}
+            className="bg-red-500 text-white px-3 py-1 rounded ml-2 hover:bg-red-600"
+          >
+            Delete
+          </button>
+        </div>
+      ),
+    },
+  ];
+
   if (loading) return <div className="text-center">Loading...</div>;
   if (error) return <div className="text-red-500">Error: {error}</div>;
 
   return (
-    <div>
-      <Table data={configs} onDelete={handleDelete} onUpdate={handleUpdate} />
+    <div className="container mx-auto mt-8 p-4">
+      <h1 className="text-2xl font-display mb-4">Configurations</h1>
+      
+      {/* Card Structure for DynamicTable */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search by Type..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="border border-gray-300 rounded-lg p-2 w-full"
+          />
+        </div>
+
+        <DynamicTable 
+          data={filteredConfigs} 
+          columns={columns} 
+          toolbarOptions={["Search"]} 
+          editing={{ allowDeleting: true, allowEditing: true }} 
+        />
+      </div>
     </div>
   );
 };
 
-export default ConfigList;
+export default ConfigDynamicTable;
