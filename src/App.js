@@ -23,6 +23,8 @@ import {
 } from "./pages";
 import "./App.css";
 import { useStateContext } from "./contexts/ContextProvider";
+import Dashboard from "./pages/Dashboard.jsx";
+import ConfigList from "./components/ConfigList.jsx";
 
 function App() {
   const {
@@ -36,7 +38,7 @@ function App() {
   } = useStateContext();
 
   useEffect(() => {
-    const currentThemeColor = localStorage.getItem("colorMode");
+    const currentThemeColor = localStorage.getItem("#ffc107");
     const currentThemeMode = localStorage.getItem("themeMode");
     if (currentThemeColor && currentThemeMode) {
       setCurrentColor(currentThemeColor);
@@ -48,7 +50,7 @@ function App() {
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
-            <TooltipComponent content="Settings" position="Top">
+            {/* <TooltipComponent content="Settings" position="Top">
               <button
                 onClick={() => setThemeSettings(true)}
                 type="button"
@@ -57,7 +59,7 @@ function App() {
               >
                 <FiSettings />
               </button>
-            </TooltipComponent>
+            </TooltipComponent> */}
           </div>
           {activeMenu ? (
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white">
@@ -73,15 +75,18 @@ function App() {
               activeMenu ? "md:ml-72" : "flex-2"
             }`}
           >
-            <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
+            <div className="fixed lg:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
               <Navbar />
             </div>
             <div>
               {themeSettings && <ThemeSettings />}
               <Routes>
                 {/* Dashboard */}
-                <Route path="/" element={<Ecommerce />} />
+                <Route path="/" element={<Dashboard />} />
                 <Route path="/ecommerce" element={<Ecommerce />} />
+                <Route path="/config" element={ <ConfigList />} />
+
+               
 
                 {/* Pages */}
                 <Route path="/orders" element={<Orders />} />
@@ -108,6 +113,7 @@ function App() {
             <Footer />
           </div>
         </div>
+        
       </BrowserRouter>
     </div>
   );

@@ -31,7 +31,11 @@ const Sidebar = () => {
               onClick={handleCloseSideBar}
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
-              <SiShopware /> <span>Shoppy</span>
+               <img 
+                src="https://406613acaf18756ba43698c47fe4ee68.cdn.bubble.io/f1723437474609x896829525265946600/OLD.svg" 
+                alt="Logo" 
+                className="h-8 w-auto" 
+              />
             </Link>
             <TooltipComponent content="Menu" position="BottomCenter">
               <button
