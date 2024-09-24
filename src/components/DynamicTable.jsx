@@ -10,6 +10,7 @@ import {
 } from "@syncfusion/ej2-react-grids";
 
 const DynamicTable = ({ data, columns, toolbarOptions, editing }) => {
+  console.log("sss",data);
   return (
     <div className="container mx-auto mt-8">
       {/* Card Structure */}

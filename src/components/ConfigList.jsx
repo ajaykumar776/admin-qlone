@@ -1,13 +1,14 @@
-// components/ConfigDynamicTable.js
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Use useNavigate instead of useHistory
 import DynamicTable from "./DynamicTable"; // Import the dynamic table component
 import { fetchConfigs, deleteConfig, updateConfig } from "../Actions/api"; // Adjust the path as needed
 
-const ConfigDynamicTable = () => {
+const ConfigList = () => {
   const [configs, setConfigs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate(); // Create a navigate function
 
   useEffect(() => {
     const getConfigs = async () => {
@@ -88,7 +89,17 @@ const ConfigDynamicTable = () => {
   return (
     <div className="container mx-auto mt-8 p-4">
       <h1 className="text-2xl font-display mb-4">Configurations</h1>
-      
+
+      {/* Add Configuration Button */}
+      <div className="mb-4">
+        <button
+          onClick={() => navigate('/add-config')} // Use navigate to go to the Add Config Form
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          Add Configuration
+        </button>
+      </div>
+
       {/* Card Structure for DynamicTable */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="mb-4">
@@ -112,4 +123,4 @@ const ConfigDynamicTable = () => {
   );
 };
 
-export default ConfigDynamicTable;
+export default ConfigList;

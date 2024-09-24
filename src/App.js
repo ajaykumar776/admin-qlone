@@ -25,6 +25,7 @@ import "./App.css";
 import { useStateContext } from "./contexts/ContextProvider";
 import Dashboard from "./pages/Dashboard.jsx";
 import ConfigList from "./components/ConfigList.jsx";
+import AddConfigForm from "./components/AddConfigForm.jsx";
 
 function App() {
   const {
@@ -85,7 +86,7 @@ function App() {
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/ecommerce" element={<Ecommerce />} />
                 <Route path="/config" element={ <ConfigList />} />
-
+                <Route path="/add-config" element={<AddConfigForm /> }/>
                
 
                 {/* Pages */}
